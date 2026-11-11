@@ -3,18 +3,20 @@ import AtmosDomain
 import AtmosPresentation
 import Foundation
 import SwiftUI
+import UIKit
 
 /// The composition root (ADR-0004): the one place that knows which implementation stands
-/// behind each domain protocol. Everything else receives its dependencies in `init`.
-///
-/// In step 05 the app shows the Home screen with **preview data**, so the views can be checked
-/// on a device before any real data is connected. Step 06 adds the view models.
+/// behind each domain protocol, and that builds the use cases and view models. Everything else
+/// receives its dependencies in `init`; nothing reaches for a singleton.
 @MainActor
 final class AppContainer {
-    let repositories: DataModule.Repositories
+    private let repositories: DataModule.Repositories
+    private let places = SelectedPlaceStore()
+    private let locationPermission = LocationPermission()
+    private let version: String
 
     init() {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
+        version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
         repositories = DataModule.makeRepositories(
             userAgent: "Atmos/\(version) (iOS)", // no personal data (API_CONTRACT §4)
             storageDirectory: URL.applicationSupportDirectory.appendingPathComponent("Atmos", isDirectory: true)
@@ -22,9 +24,60 @@ final class AppContainer {
     }
 
     func makeRootView() -> some View {
-        NavigationStack {
-            HomeContent(state: .content(PreviewData.content), actions: .none)
-        }
-        .tint(AtmosTheme.accent)
+        let freshness = ForecastFreshness(dates: SystemDateProvider())
+        let getForecast = GetForecastUseCase(repository: repositories.weather, freshness: freshness)
+        let observeSettings = ObserveSettingsUseCase(repository: repositories.settings)
+
+        let home = HomeViewModel(
+            getCurrentLocationForecast: GetCurrentLocationForecastUseCase(
+                locations: repositories.location,
+                getForecast: getForecast
+            ),
+            getForecast: getForecast,
+            freshness: freshness,
+            places: places,
+            observeSettings: observeSettings
+        )
+        let cities = CitiesViewModel(
+            searchCities: SearchCitiesUseCase(repository: repositories.cities),
+            saveCity: SaveCityUseCase(repository: repositories.cities),
+            removeCity: RemoveCityUseCase(repository: repositories.cities),
+            observePlaces: ObservePlacesUseCase(repository: repositories.cities),
+            getCachedForecast: GetCachedForecastUseCase(repository: repositories.weather),
+            observeSettings: observeSettings,
+            places: places,
+            languageCode: Self.languageCode
+        )
+        let settings = SettingsViewModel(
+            observeSettings: observeSettings,
+            updateSettings: UpdateSettingsUseCase(repository: repositories.settings)
+        )
+        let platform = PlatformActions(
+            requestLocationPermission: { [locationPermission] in
+                // iOS shows the dialog only once; after a refusal, Settings is the only way.
+                if locationPermission.status == .denied {
+                    Self.openAppSettings()
+                    return false
+                }
+                return await locationPermission.request()
+            },
+            openAppSettings: { Self.openAppSettings() },
+            version: version
+        )
+        return AppRoot(home: home, cities: cities, settings: settings, platform: platform)
+    }
+
+    /// The app's own page in Settings: per-app language (ADR-0005) and location access.
+    private static func openAppSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
+    }
+
+    /// The language the app is shown in, for city names (F-05): the per-app language iOS chose
+    /// from the app's localizations.
+    private static let languageCode: @Sendable () -> String = {
+        let supported = ["en", "tr", "ar"]
+        let preferred = Bundle.main.preferredLocalizations.first ?? "en"
+        return supported.first { preferred.hasPrefix($0) } ?? "en"
     }
 }
