@@ -1,6 +1,6 @@
 # Step 05 — Presentation: the views, before any data (iOS)
 
-**Branch:** `step-05-presentation-ui` · **Previous:** [step 04](04-data-layer.md) · **Next:** step 06, integration
+**Branch:** `step-05-presentation-ui` · **Previous:** [step 04](04-data-layer.md) · **Next:** [step 06, integration](06-integration.md)
 
 Every screen is built as a **stateless view of a state value**, with realistic fake data. No
 view model, no repository, no network. When a view can only show what it is given, it can be
