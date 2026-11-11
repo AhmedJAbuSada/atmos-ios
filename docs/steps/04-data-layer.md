@@ -1,6 +1,6 @@
 # Step 04 — Data layer: the app's backend on the phone (iOS)
 
-**Branch:** `step-04-data-layer` · **Previous:** [step 03](03-domain-layer.md) · **Next:** step 05, presentation / UI
+**Branch:** `step-04-data-layer` · **Previous:** [step 03](03-domain-layer.md) · **Next:** [step 05, presentation / UI](05-presentation-ui.md)
 
 The data layer talks to the outside world (Open-Meteo, files, `UserDefaults`, CoreLocation)
 and **conforms to the protocols the domain declared in step 03**. Nothing outside

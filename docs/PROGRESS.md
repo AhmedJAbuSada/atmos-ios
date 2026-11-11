@@ -2,8 +2,8 @@
 
 > Read this first at the start of every work session (human or AI). Update it at the end.
 
-**Current step:** 04, data layer ✅ done
-**Next up:** step 05, presentation / UI (`step-05-presentation-ui`)
+**Current step:** 05, presentation / UI ✅ done
+**Next up:** step 06, integration (`step-06-integration`)
 **Last updated:** 2026-11-11
 
 ## Status
@@ -14,22 +14,21 @@
 | 02 Project structure | ✅ Done | `step-02-project-structure` |
 | 03 Domain layer | ✅ Done | `step-03-domain-layer` |
 | 04 Data layer | ✅ Done | `step-04-data-layer` |
-| 05 Presentation / UI | ⏳ Next | `step-05-presentation-ui` |
-| 06 Integration | ⬜ | — |
+| 05 Presentation / UI | ✅ Done | `step-05-presentation-ui` |
+| 06 Integration | ⏳ Next | `step-06-integration` |
 | 07 Quality & release | ⬜ | — |
 
-## Next up: step 05 plan
-Everything in `AtmosPresentation`, with fake data; no view models yet (step 06).
-1. Design system: colours (light/dark, AA contrast), typography with Dynamic Type, spacing.
-2. `WeatherFormatter`: `FormatStyle` with the environment locale; Turkish `%69` and decimal
-   comma, Arabic with Latin digits (`ar@numbers=latn`); values wrapped in directional
-   isolates from the start. Tests in en, tr, ar (they run on macOS only).
-3. Condition labels and SF Symbols per `WeatherCondition` (night variants); `DomainError`
-   messages.
-4. Stateless content views: Home, Cities, Settings, About; every state previewed in light,
-   dark, Arabic and the largest Dynamic Type size.
-5. All strings in `Localizable.xcstrings` (en, tr, ar), with plural variations.
-6. `AppContainer.makeRootView()` shows Home with preview data.
+## Next up: step 06 plan
+1. `@MainActor @Observable` view models in AtmosPresentation: `HomeViewModel` (selected
+   place, load, refresh, outdated banner, permission result), `CitiesViewModel` (debounced
+   search with a cancelled previous task, add/remove with undo), `SettingsViewModel`.
+2. Container views (`HomeView`, `CitiesView`, `SettingsView`) owning the view models and
+   handling navigation, the location permission request (`CLLocationManager`, explanation
+   first) and opening the system Settings page for the language.
+3. `SelectedPlaceStore` shared by Home and Cities; `NavigationStack` with a typed path.
+4. `AppContainer` builds the use cases and view models; theme applied with
+   `preferredColorScheme`.
+5. View model tests with the `AtmosTesting` fakes (they run on macOS).
 
 ## Process rule
 After a step is merged into `main`, add the "📍 You are on Step N" section to the top of
