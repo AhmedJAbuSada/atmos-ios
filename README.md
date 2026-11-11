@@ -4,12 +4,38 @@
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 05 of 7 — Presentation: the views, before any data
+
+`step-05-presentation-ui` · [← Step 04](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-04-data-layer) · [Step 06 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-06-integration) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** Every screen as a **stateless SwiftUI view of a state value**, with fake data and no view model yet: Home, Cities, Settings and About; a tiny design system that leans on iOS's semantic styles and SF Symbols; a locale-aware formatter (Turkish `%69`, Arabic Latin digits, directional isolates); one String Catalog in English, Turkish and Arabic with plurals; and previews of every state in light, dark, Arabic RTL and the largest Dynamic Type size.
+
+**Why it matters.** When a view can only show what it is given, it can be designed, previewed and reviewed on its own, in every language, before the plumbing exists. Every lesson from the Android UI (bidi isolates, Turkish percent, the missing sunrise/sunset feature) is built in from day one.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `…/AtmosPresentation/Home/` | HomeState + stateless HomeContent with previews |
+| `…/AtmosPresentation/Cities/, Settings/, About/` | The other three screens |
+| `…/AtmosPresentation/Formatting/WeatherFormatter.swift` | Numbers and dates per locale |
+| `…/AtmosPresentation/Resources/Localizable.xcstrings` | 65 keys in en, tr, ar |
+| `Packages/AtmosKit/Tests/AtmosPresentationTests/` | Formatter tests in three languages |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/05-presentation-ui.md](docs/steps/05-presentation-ui.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 04](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-04-data-layer...step-05-presentation-ui).
+3. **Run it:**
+   ```bash
+   xcodegen && open Atmos.xcodeproj   # ⌘R, or open any view for its previews
+   ```
+4. **Try the exercise:** Preview the Home screen on the smallest iPhone in Arabic at the largest text size. What would you change first?
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
 <!-- step-banner:end -->
 
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
