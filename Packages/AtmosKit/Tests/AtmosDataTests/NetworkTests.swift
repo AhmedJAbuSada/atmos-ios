@@ -39,7 +39,7 @@ struct ErrorMappingTests {
 @Suite("RetryingHTTPClient")
 struct RetryingHTTPClientTests {
     let url = URL(literal: "https://example.com")
-    let ok = FakeHTTPClient.Reply.response(Data(), 200)
+    let success = FakeHTTPClient.Reply.response(Data(), 200)
 
     actor Delays {
         var values: [Duration] = []
@@ -48,7 +48,7 @@ struct RetryingHTTPClientTests {
 
     @Test("5xx is retried twice with doubling back-off, then succeeds")
     func serverErrors() async throws {
-        let fake = FakeHTTPClient([.response(Data(), 503), .response(Data(), 500), ok])
+        let fake = FakeHTTPClient([.response(Data(), 503), .response(Data(), 500), success])
         let delays = Delays()
         let client = RetryingHTTPClient(wrapping: fake, sleep: { await delays.record($0) })
 
@@ -58,7 +58,7 @@ struct RetryingHTTPClientTests {
 
     @Test("a network error is retried")
     func networkError() async throws {
-        let fake = FakeHTTPClient([.failure(URLError(.networkConnectionLost)), ok])
+        let fake = FakeHTTPClient([.failure(URLError(.networkConnectionLost)), success])
         let client = RetryingHTTPClient(wrapping: fake, sleep: { _ in })
 
         #expect(try await client.get(url).statusCode == 200)
@@ -67,7 +67,7 @@ struct RetryingHTTPClientTests {
 
     @Test("4xx is not retried: the request itself is wrong")
     func clientError() async throws {
-        let fake = FakeHTTPClient([.response(Data(), 400), ok])
+        let fake = FakeHTTPClient([.response(Data(), 400), success])
         let client = RetryingHTTPClient(wrapping: fake, sleep: { _ in })
 
         #expect(try await client.get(url).statusCode == 400)
@@ -85,7 +85,7 @@ struct RetryingHTTPClientTests {
 
     @Test("a cancelled request is not retried")
     func cancelled() async {
-        let fake = FakeHTTPClient([.failure(URLError(.cancelled)), ok])
+        let fake = FakeHTTPClient([.failure(URLError(.cancelled)), success])
         let client = RetryingHTTPClient(wrapping: fake, sleep: { _ in })
 
         await #expect(throws: URLError.self) { try await client.get(url) }
