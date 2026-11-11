@@ -3,6 +3,41 @@
 **A weather app built step by step, as a public tutorial on professional iOS development
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
+<!-- step-banner:start -->
+## 📍 You are on Step 03 of 7 — Domain layer: the business rules, in plain code
+
+`step-03-domain-layer` · [← Step 02](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-02-project-structure) · [Step 04 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-04-data-layer) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The heart of the app in plain Swift: entities, unit types, repository *protocols*, use cases with the business rules (cache freshness, offline fallback, search rules, no duplicate cities), typed throws with `DomainError`, a small `ValueStream` actor, and 33 Swift Testing tests (with parameterised cases) that run in milliseconds, even on Linux.
+
+**Why it matters.** The same rules as the Android domain, in idiomatic Swift. Comparing the two shows what is *architecture* (identical) and what is *language* (typed throws vs AppResult, actors vs StateFlow). ADR-0009 shows a plan meeting the compiler.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `Packages/AtmosKit/Sources/AtmosDomain/` | Entities, protocols, use cases |
+| `…/Weather/GetForecastUseCase.swift` | Cache-first logic as a decision table |
+| `Packages/AtmosKit/Sources/AtmosTesting/` | Fakes shared by every layer's tests |
+| `Packages/AtmosKit/Tests/AtmosDomainTests/` | 33 tests, one per rule |
+| `docs/architecture/adr/0009-…` | Cancellation with typed throws |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/03-domain-layer.md](docs/steps/03-domain-layer.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 02](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-02-project-structure...step-03-domain-layer).
+3. **Run it:**
+   ```bash
+   (cd Packages/AtmosKit && swift test)
+   ```
+4. **Try the exercise:** Port the "Windy" warning from the Android exercise. Is the Swift test shorter or longer? Why?
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
+<!-- step-banner:end -->
+
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-iOS%2017+-0D96F6?logo=apple&logoColor=white)
 ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-3%20layers-success)
