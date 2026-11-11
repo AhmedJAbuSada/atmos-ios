@@ -21,6 +21,29 @@ public struct CitiesContent: View {
                 prompt: Text("cities.searchPrompt", bundle: .module)
             )
             .overlay { overlay }
+            .safeAreaInset(edge: .bottom) { noticeBanner }
+            .animation(.default, value: state.notice)
+    }
+
+    /// iOS has no built-in snackbar; this small banner plays that role (US-05).
+    @ViewBuilder private var noticeBanner: some View {
+        if let notice = state.notice {
+            HStack {
+                switch notice {
+                case let .removed(city):
+                    Text("cities.removed \(city.name)", bundle: .module)
+                    Spacer()
+                    Button { actions.undo() } label: { Text("cities.undo", bundle: .module).bold() }
+                case let .alreadySaved(city):
+                    Text("cities.alreadySaved \(city.name)", bundle: .module)
+                    Spacer()
+                }
+            }
+            .padding(AtmosTheme.Spacing.medium)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+            .padding(AtmosTheme.Spacing.medium)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
+        }
     }
 
     @ViewBuilder private var sections: some View {

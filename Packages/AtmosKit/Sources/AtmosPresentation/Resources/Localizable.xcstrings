@@ -169,6 +169,30 @@
         }
       }
     },
+    "cities.alreadySaved %@": {
+      "comment": "Notice; %@ is a city",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is already in your list"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ zaten listenizde"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ موجودة في قائمتك بالفعل"
+          }
+        }
+      }
+    },
     "cities.emptySaved": {
       "comment": "Empty saved list",
       "extractionState": "manual",
@@ -241,6 +265,30 @@
         }
       }
     },
+    "cities.removed %@": {
+      "comment": "Undo banner; %@ is a city",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ removed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kaldırıldı"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت إزالة %@"
+          }
+        }
+      }
+    },
     "cities.searchPrompt": {
       "comment": "Search field placeholder",
       "extractionState": "manual",
@@ -285,6 +333,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "المدن"
+          }
+        }
+      }
+    },
+    "cities.undo": {
+      "comment": "Undo button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri al"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراجع"
           }
         }
       }
