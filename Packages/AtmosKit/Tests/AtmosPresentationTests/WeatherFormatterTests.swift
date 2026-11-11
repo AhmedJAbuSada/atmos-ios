@@ -1,5 +1,5 @@
-@testable import AtmosPresentation
 import AtmosDomain
+@testable import AtmosPresentation
 import Foundation
 import Testing
 

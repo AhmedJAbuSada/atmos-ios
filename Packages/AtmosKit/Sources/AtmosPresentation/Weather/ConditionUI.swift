@@ -11,21 +11,33 @@ extension WeatherCondition {
     /// At night a clear sky shows a moon, not a sun (US-01). Multicolour SF Symbols look right
     /// in light and dark mode and are never mirrored in right-to-left layouts.
     func symbolName(isDay: Bool = true) -> String {
-        switch self {
-        case .clear: isDay ? "sun.max.fill" : "moon.stars.fill"
-        case .mainlyClear, .partlyCloudy: isDay ? "cloud.sun.fill" : "cloud.moon.fill"
-        case .overcast: "cloud.fill"
-        case .fog: "cloud.fog.fill"
-        case .drizzle: "cloud.drizzle.fill"
-        case .freezingDrizzle, .freezingRain: "cloud.sleet.fill"
-        case .rain: "cloud.rain.fill"
-        case .rainShowers: "cloud.heavyrain.fill"
-        case .snow, .snowShowers: "cloud.snow.fill"
-        case .thunderstorm: "cloud.bolt.rain.fill"
-        case .thunderstormWithHail: "cloud.hail.fill"
-        case .unknown: "questionmark.circle"
-        }
+        if !isDay, let night = Self.nightSymbols[self] { return night }
+        return Self.symbols[self] ?? "questionmark.circle"
     }
+
+    private static let symbols: [WeatherCondition: String] = [
+        .clear: "sun.max.fill",
+        .mainlyClear: "cloud.sun.fill",
+        .partlyCloudy: "cloud.sun.fill",
+        .overcast: "cloud.fill",
+        .fog: "cloud.fog.fill",
+        .drizzle: "cloud.drizzle.fill",
+        .freezingDrizzle: "cloud.sleet.fill",
+        .rain: "cloud.rain.fill",
+        .freezingRain: "cloud.sleet.fill",
+        .snow: "cloud.snow.fill",
+        .rainShowers: "cloud.heavyrain.fill",
+        .snowShowers: "cloud.snow.fill",
+        .thunderstorm: "cloud.bolt.rain.fill",
+        .thunderstormWithHail: "cloud.hail.fill",
+        .unknown: "questionmark.circle"
+    ]
+
+    private static let nightSymbols: [WeatherCondition: String] = [
+        .clear: "moon.stars.fill",
+        .mainlyClear: "cloud.moon.fill",
+        .partlyCloudy: "cloud.moon.fill"
+    ]
 }
 
 extension DomainError {
