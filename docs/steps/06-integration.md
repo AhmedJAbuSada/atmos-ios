@@ -1,6 +1,6 @@
 # Step 06 — Integration: connect the views to the real data (iOS)
 
-**Branch:** `step-06-integration` · **Previous:** [step 05](05-presentation-ui.md) · **Next:** step 07, quality & release
+**Branch:** `step-06-integration` · **Previous:** [step 05](05-presentation-ui.md) · **Next:** [step 07, quality & release](07-quality-release.md)
 
 Every piece exists: rules (step 03), data (step 04), views (step 05). This step adds the glue:
 **view models** that turn use-case results into view state, **container views** that connect

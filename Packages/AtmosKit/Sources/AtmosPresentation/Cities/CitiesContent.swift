@@ -97,6 +97,7 @@ public struct CitiesContent: View {
                 .font(.title2)
             }
             .buttonStyle(.borderless)
+            .accessibilityIdentifier("cities.add.\(city.id)")
         }
         .frame(minHeight: AtmosTheme.Spacing.tapTarget)
     }
@@ -116,8 +117,7 @@ public struct CitiesContent: View {
                         .temperature(temperature, unit: state.temperatureUnit))
                 }
                 if let condition = item.condition {
-                    Image(systemName: condition.symbolName())
-                        .symbolRenderingMode(.multicolor)
+                    ConditionIcon(condition: condition)
                         .accessibilityLabel(Text(condition.label, bundle: .module))
                 }
             }
@@ -125,6 +125,7 @@ public struct CitiesContent: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("cities.place.\(item.id)")
 
         if case let .saved(city) = item.place {
             row.swipeActions {

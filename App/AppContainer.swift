@@ -17,9 +17,15 @@ final class AppContainer {
 
     init() {
         version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
+        let storage = URL.applicationSupportDirectory.appendingPathComponent("Atmos", isDirectory: true)
+        // UI tests start from a clean install, so every run sees the first-launch flow.
+        if ProcessInfo.processInfo.arguments.contains("-uiTestingReset") {
+            try? FileManager.default.removeItem(at: storage)
+            if let id = Bundle.main.bundleIdentifier { UserDefaults.standard.removePersistentDomain(forName: id) }
+        }
         repositories = DataModule.makeRepositories(
             userAgent: "Atmos/\(version) (iOS)", // no personal data (API_CONTRACT §4)
-            storageDirectory: URL.applicationSupportDirectory.appendingPathComponent("Atmos", isDirectory: true)
+            storageDirectory: storage
         )
     }
 

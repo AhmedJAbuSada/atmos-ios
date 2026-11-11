@@ -14,8 +14,8 @@ settings:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
     SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
-    MARKETING_VERSION: "0.6.0"
-    CURRENT_PROJECT_VERSION: 6
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: 10
 
 packages:
   AtmosKit:
@@ -43,7 +43,8 @@ targets:
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UIApplicationSupportsIndirectInputEvents: true
-        # Shown by iOS when the app first asks for location (step 06).
+        # Shown by iOS when the app first asks for location. Translated in
+        # App/Resources/InfoPlist.xcstrings (en, tr, ar).
         NSLocationWhenInUseUsageDescription: "Atmos uses your approximate location to show the weather where you are."
     settings:
       base:

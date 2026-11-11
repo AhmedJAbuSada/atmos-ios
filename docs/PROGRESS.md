@@ -2,8 +2,8 @@
 
 > Read this first at the start of every work session (human or AI). Update it at the end.
 
-**Current step:** 06, integration ✅ done
-**Next up:** step 07, quality & release (`step-07-quality-release`)
+**Current step:** 07, quality & release ✅ done. **iOS v1.0.0 is complete.**
+**Next up:** the same seven steps for React Native ([atmos-react-native](https://github.com/AhmedJAbuSada/atmos-react-native)), bare React Native CLI
 **Last updated:** 2026-11-11
 
 ## Status
@@ -16,19 +16,12 @@
 | 04 Data layer | ✅ Done | `step-04-data-layer` |
 | 05 Presentation / UI | ✅ Done | `step-05-presentation-ui` |
 | 06 Integration | ✅ Done | `step-06-integration` |
-| 07 Quality & release | ⏳ Next | `step-07-quality-release` |
+| 07 Quality & release | ✅ Done | `step-07-quality-release` |
 
-## Next up: step 07 plan
-1. UI test journey on the Simulator against the real API: no permission → search
-   "Istanbul" → add → choose → the forecast appears.
-2. Screenshots of every main screen in light, dark, Arabic and Turkish, recorded in CI with
-   `XCUIScreenshot` (or a snapshot test) and committed to `docs/screenshots`; README gallery.
-3. Localize the system texts (location usage description) in en, tr, ar via
-   `InfoPlist.xcstrings`.
-4. Release: version 1.0.0, a `Release` build in CI, signing documented (never committed),
-   privacy manifest (`PrivacyInfo.xcprivacy`: no tracking, UserDefaults reason code).
-5. CHANGELOG, release / accessibility (VoiceOver) / localization checklists.
-6. Merge to `main` as v1.0.0.
+## After 1.0 (optional)
+- Native-speaker review of tr and ar; VoiceOver pass on a real iPhone.
+- Snapshot comparison in CI (fail on unexpected screenshot changes).
+- TestFlight upload from CI with App Store Connect API keys.
 
 ## Process rule
 After a step is merged into `main`, add the "📍 You are on Step N" section to the top of

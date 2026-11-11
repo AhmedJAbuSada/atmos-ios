@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "Atmos" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Atmos" } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Atmos" } }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "Shown by iOS in the location permission dialog.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يستخدم Atmos موقعك التقريبي ليعرض لك الطقس حيث أنت." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Atmos uses your approximate location to show the weather where you are." } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Atmos, bulunduğunuz yerin hava durumunu göstermek için yaklaşık konumunuzu kullanır." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

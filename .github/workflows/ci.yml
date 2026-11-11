@@ -66,7 +66,10 @@ jobs:
   macos:
     name: Lint, package tests and app on macOS
     runs-on: macos-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
+    # Only to commit the screenshots back when asked (see the last step).
+    permissions:
+      contents: write
     steps:
       - name: Check out
         uses: actions/checkout@v5
@@ -88,6 +91,10 @@ jobs:
         run: xcodegen
 
       - name: Build and run UI tests on the iOS Simulator
+        env:
+          # When the commit message contains [screenshots], the UI tests save their screenshots
+          # here (TEST_RUNNER_ variables are passed to the test process without the prefix).
+          TEST_RUNNER_ATMOS_SCREENSHOTS_DIR: ${{ contains(github.event.head_commit.message, '[screenshots]') && format('{0}/docs/screenshots', github.workspace) || '' }}
         run: |
           destination=$(xcrun simctl list devices available --json | python3 scripts/simulator-destination.py)
           status=0
@@ -100,3 +107,18 @@ jobs:
       - name: Report the failure
         if: failure()
         run: python3 scripts/annotate-log.py xcodebuild.log "xcodebuild"
+
+      - name: Build for release (unsigned)
+        run: |
+          xcodebuild build -project Atmos.xcodeproj -scheme Atmos -configuration Release \
+            -destination "generic/platform=iOS" CODE_SIGNING_ALLOWED=NO > release.log 2>&1 \
+            || { python3 scripts/annotate-log.py release.log "Release build"; exit 1; }
+
+      - name: Commit the screenshots
+        if: success() && github.event_name == 'push' && contains(github.event.head_commit.message, '[screenshots]')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          git diff --cached --quiet || git commit -m "docs: update screenshots"
+          git push
