@@ -4,12 +4,38 @@
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 06 of 7 — Integration: connect the views to the real data
+
+`step-06-integration` · [← Step 05](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-05-presentation-ui) · [Step 07 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-07-quality-release) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The glue: `@MainActor @Observable` view models that turn use-case results into view state, an `AppRoot` with a typed `NavigationStack` that connects each stateless view from step 05 to its view model, debounced search with task cancellation, Undo for removed cities, the explanation-first location permission flow, and the system Settings page for the per-app language. After this step the app works end to end.
+
+**Why it matters.** The views did not change at all: integration is only wiring. Work runs in `.task`, so it is cancelled with the screen. UIKit and CoreLocation stay in the app target, passed in as closures, so the package stays platform-neutral and testable.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `…/AtmosPresentation/ViewModels/` | Home, Cities, Settings view models + the selected place |
+| `…/AtmosPresentation/Navigation/AppRoot.swift` | Typed navigation, containers, theme |
+| `App/AppContainer.swift` | Repositories → use cases → view models |
+| `App/LocationPermission.swift` | The permission request (iOS asks once) |
+| `Packages/AtmosKit/Tests/AtmosPresentationTests/` | 13 view model tests |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/06-integration.md](docs/steps/06-integration.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 05](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-05-presentation-ui...step-06-integration).
+3. **Run it:**
+   ```bash
+   xcodegen && open Atmos.xcodeproj   # ⌘R: the real app with real weather
+   ```
+4. **Try the exercise:** Write a test proving that a search result arriving after the user cleared the field is ignored. Compare it with the same test on Android.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
 <!-- step-banner:end -->
 
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
