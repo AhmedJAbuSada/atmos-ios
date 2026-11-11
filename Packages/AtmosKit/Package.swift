@@ -14,7 +14,10 @@ import PackageDescription
 var targets: [Target] = [
     .target(name: "AtmosDomain"),
     .target(name: "AtmosData", dependencies: ["AtmosDomain"]),
-    .testTarget(name: "AtmosDomainTests", dependencies: ["AtmosDomain"]),
+    // In-memory fakes of the domain protocols, shared by the tests of every layer. Only test
+    // targets depend on it; it is never linked into the app.
+    .target(name: "AtmosTesting", dependencies: ["AtmosDomain"]),
+    .testTarget(name: "AtmosDomainTests", dependencies: ["AtmosDomain", "AtmosTesting"]),
     .testTarget(name: "AtmosDataTests", dependencies: ["AtmosData"]),
 ]
 
@@ -28,7 +31,7 @@ targets += [
         dependencies: ["AtmosDomain"],
         resources: [.process("Resources")]
     ),
-    .testTarget(name: "AtmosPresentationTests", dependencies: ["AtmosPresentation"]),
+    .testTarget(name: "AtmosPresentationTests", dependencies: ["AtmosPresentation", "AtmosTesting"]),
 ]
 #endif
 

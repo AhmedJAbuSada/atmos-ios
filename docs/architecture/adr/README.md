@@ -14,5 +14,6 @@ is never lost.
 | [0006](0006-typed-throws-domain-error.md) | Errors: typed throws with `DomainError` | Accepted |
 | [0007](0007-json-files-instead-of-swiftdata.md) | Storage: JSON files and `UserDefaults`, not SwiftData | Accepted |
 | [0008](0008-xcodegen-project.md) | Generate the Xcode project with XcodeGen | Accepted |
+| [0009](0009-cancellation-with-typed-throws.md) | Cancellation with typed throws: an explicit `DomainError.cancelled` | Accepted |
 
 Template: copy [`template.md`](template.md).

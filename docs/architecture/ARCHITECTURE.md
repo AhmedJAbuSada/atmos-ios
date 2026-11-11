@@ -74,7 +74,7 @@ Sources/AtmosDomain/
 ├── Weather/     Forecast, WeatherCondition, GetForecastUseCase …
 ├── Location/    Coordinates, City, Place, SearchCitiesUseCase …
 ├── Settings/    UserSettings, Temperature, WindSpeed …
-└── Common/      DomainError, Clock
+└── Common/      DomainError, DateProvider, ValueStream
 ```
 
 ## 4. Data flow (one request, end to end)
@@ -115,7 +115,8 @@ sequenceDiagram
 - **Repository protocols** speak in entities, never DTOs. They are `Sendable`.
 - Errors are typed: functions are `async throws(DomainError)` (ADR-0006). No library
   error type crosses a layer boundary.
-- Time comes from an injected `Clock`, never `Date()` directly, so tests control it.
+- Time comes from an injected `DateProvider`, never `Date()` directly, so tests control it.
+  (Not called `Clock`: Swift already has a `Clock` protocol, for durations.)
 
 ### Data
 - **DTOs** are `Decodable` structs that mirror the JSON; every field is optional.
