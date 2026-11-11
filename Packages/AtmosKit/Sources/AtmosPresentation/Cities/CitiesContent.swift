@@ -97,6 +97,7 @@ public struct CitiesContent: View {
                 .font(.title2)
             }
             .buttonStyle(.borderless)
+            .accessibilityIdentifier("cities.add.\(city.id)")
         }
         .frame(minHeight: AtmosTheme.Spacing.tapTarget)
     }
@@ -125,6 +126,7 @@ public struct CitiesContent: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("cities.place.\(item.id)")
 
         if case let .saved(city) = item.place {
             row.swipeActions {

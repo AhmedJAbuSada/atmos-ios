@@ -22,10 +22,12 @@ struct MessageView: View {
             if let actionTitle, let action {
                 Button { action() } label: { Text(actionTitle, bundle: .module) }
                     .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier("message.action")
             }
             if let secondaryTitle, let secondaryAction {
                 Button { secondaryAction() } label: { Text(secondaryTitle, bundle: .module) }
                     .buttonStyle(.bordered)
+                    .accessibilityIdentifier("message.secondaryAction")
             }
         }
         .multilineTextAlignment(.center)

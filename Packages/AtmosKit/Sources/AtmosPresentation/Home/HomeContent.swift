@@ -72,6 +72,7 @@ private struct ForecastView: View {
                 if let age = content.outdatedBy { InfoBanner(text: updatedAgo(age)) }
                 CurrentConditionsView(current: content.forecast.current, settings: content.settings, format: format)
                 SectionTitle("home.next24Hours")
+                    .accessibilityIdentifier("home.hourly")
                 HourlyRow(hours: content.forecast.hourly, unit: content.settings.temperatureUnit, format: format)
                 SectionTitle("home.next7Days")
                 VStack(spacing: 0) {
