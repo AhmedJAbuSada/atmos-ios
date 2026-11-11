@@ -1,0 +1,15 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "hello.title" : {
+      "comment" : "Placeholder title shown until the real screens exist (step 02).",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مرحبًا، Atmos" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hello, Atmos" } },
+        "tr" : { "stringUnit" : { "state" : "translated", "value" : "Merhaba, Atmos" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

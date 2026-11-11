@@ -1,0 +1,102 @@
+# Two jobs:
+# - linux: builds and tests the domain and data layers with the Swift toolchain only. Fast,
+#   and proves the business logic needs no Apple framework (ADR-0001).
+# - macos: SwiftLint, the full package tests (including presentation), and the app with its
+#   UI tests on the iOS Simulator.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, "step-*"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    name: Domain and data on Linux
+    # Pinned to the Ubuntu version the Swift toolchain is built for: on newer images the
+    # toolchain cannot find libxml2.so.2.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SWIFT_VERSION: "6.4.2"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Cache the Swift toolchain
+        id: swift-cache
+        uses: actions/cache@v4
+        with:
+          path: /opt/swift
+          key: swift-${{ env.SWIFT_VERSION }}-ubuntu24.04
+
+      - name: Install Swift
+        if: steps.swift-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          url="https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04.tar.gz"
+          curl -fsSL -o swift.tar.gz "$url"
+          sudo mkdir -p /opt/swift
+          sudo tar -xzf swift.tar.gz -C /opt/swift --strip-components=1
+          rm swift.tar.gz
+
+      - name: Test
+        working-directory: Packages/AtmosKit
+        run: |
+          export PATH=/opt/swift/usr/bin:$PATH
+          {
+            # A freshly unpacked toolchain fails with exit code 127 when a system library
+            # is missing; list any that are.
+            ldd /opt/swift/usr/bin/swift-frontend | grep "not found" || true
+            swift --version
+            swift test
+          } > ../../swift.log 2>&1
+
+      - name: Report the failure
+        if: failure()
+        run: python3 scripts/annotate-log.py swift.log "swift test (Linux)"
+
+  macos:
+    name: Lint, package tests and app on macOS
+    runs-on: macos-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Show the toolchain
+        run: xcodebuild -version && swift --version
+
+      - name: Install tools
+        run: brew install swiftlint xcodegen
+
+      - name: SwiftLint
+        run: swiftlint lint --strict --reporter github-actions-logging
+
+      - name: Package tests (domain, data, presentation)
+        working-directory: Packages/AtmosKit
+        run: swift test
+
+      - name: Generate the Xcode project
+        run: xcodegen
+
+      - name: Build and run UI tests on the iOS Simulator
+        run: |
+          destination=$(xcrun simctl list devices available --json | python3 scripts/simulator-destination.py)
+          status=0
+          xcodebuild test -project Atmos.xcodeproj -scheme Atmos -destination "$destination" \
+            CODE_SIGNING_ALLOWED=NO > xcodebuild.log 2>&1 || status=$?
+          # Show only what matters: errors, each test result, and the final verdict.
+          grep -E "error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST)" xcodebuild.log || true
+          exit $status
+
+      - name: Report the failure
+        if: failure()
+        run: python3 scripts/annotate-log.py xcodebuild.log "xcodebuild"

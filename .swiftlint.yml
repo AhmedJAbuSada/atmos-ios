@@ -1,0 +1,45 @@
+# SwiftLint configuration. Runs in CI with --strict (warnings fail the build).
+included:
+  - App
+  - Packages/AtmosKit/Sources
+  - Packages/AtmosKit/Tests
+  - UITests
+excluded:
+  - Packages/AtmosKit/.build
+
+opt_in_rules:
+  - empty_count
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - sorted_imports
+
+line_length:
+  warning: 120
+  error: 160
+
+identifier_name:
+  excluded: [id, x, y]
+
+custom_rules:
+  # ADR-0005: "istanbul".uppercased() gives "ISTANBUL"; Turkish readers expect "İSTANBUL".
+  locale_safe_casing:
+    name: "Locale-safe casing"
+    regex: '\.(uppercased|lowercased)\(\)|\.capitalized\b'
+    message: "Pass a locale: uppercased(with: locale). See ADR-0005."
+    severity: error
+
+  # ADR-0001: Swift packages control which *packages* a target may import, but not system
+  # frameworks. This rule closes that gap for the domain layer.
+  domain_imports_foundation_only:
+    name: "Domain imports Foundation only"
+    included: ".*/Sources/AtmosDomain/.*\\.swift"
+    regex: '^\s*import\s+(SwiftUI|UIKit|CoreLocation|Combine|SwiftData|CoreData|AtmosData|AtmosPresentation)\b'
+    message: "AtmosDomain may import Foundation only. See ADR-0001."
+    severity: error
+
+  no_print:
+    name: "No print"
+    regex: '\bprint\('
+    message: "Use Logger, or remove the debugging output."
+    severity: warning
