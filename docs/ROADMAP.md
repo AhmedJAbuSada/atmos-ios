@@ -15,7 +15,7 @@ git switch step-03-domain-layer   # any step
 | 03 | `step-03-domain-layer` | Entities, use cases, typed throws, Swift Testing, fakes | [03-domain-layer.md](steps/03-domain-layer.md) |
 | 04 | `step-04-data-layer` | URLSession, Codable DTOs, mappers, JSON file cache, settings, location | [04-data-layer.md](steps/04-data-layer.md) |
 | 05 | `step-05-presentation-ui` | Design system, SwiftUI screens and previews, String Catalog | [05-presentation-ui.md](steps/05-presentation-ui.md) |
-| 06 | `step-06-integration` | `@Observable` view models, navigation, permissions, real data | — |
+| 06 | `step-06-integration` | `@Observable` view models, navigation, permissions, real data | [06-integration.md](steps/06-integration.md) |
 | 07 | `step-07-quality-release` | UI tests, screenshots, accessibility, release | — |
 | — | `main` | The finished app | — |
 
