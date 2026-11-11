@@ -38,14 +38,18 @@ jobs:
       - name: Install Swift
         if: steps.swift-cache.outputs.cache-hit != 'true'
         run: |
+          set -euo pipefail
           url="https://download.swift.org/swift-${SWIFT_VERSION}-release/ubuntu2404/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu24.04.tar.gz"
+          curl -fsSL -o swift.tar.gz "$url"
           sudo mkdir -p /opt/swift
-          curl -sSL "$url" | sudo tar -xz -C /opt/swift --strip-components=1
+          sudo tar -xzf swift.tar.gz -C /opt/swift --strip-components=1
+          rm swift.tar.gz
 
       - name: Test
         working-directory: Packages/AtmosKit
         run: |
           export PATH=/opt/swift/usr/bin:$PATH
+          swift --version
           swift test
 
   macos:
@@ -83,7 +87,12 @@ jobs:
           grep -E "error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST)" xcodebuild.log || true
           exit $status
 
+      # Errors as annotations; if there are none, the end of the log, which holds the reason.
       - name: Report the failure
         if: failure()
         run: |
-          grep -E "error:" xcodebuild.log | head -20 | while read -r line; do echo "::error::$line"; done || true
+          if grep -qE "error:" xcodebuild.log; then
+            grep -E "error:" xcodebuild.log | sort -u | head -20 | while read -r line; do echo "::error::$line"; done
+          else
+            echo "::error title=xcodebuild (last lines)::$(tail -40 xcodebuild.log | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+          fi
