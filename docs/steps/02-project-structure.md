@@ -22,7 +22,7 @@ atmos-ios/
 │   ├── Sources/AtmosPresentation/ ← depends on AtmosDomain; HelloView + String Catalog
 │   └── Tests/…                    ← Swift Testing
 ├── .swiftlint.yml                 ← style + 2 custom rules
-├── scripts/simulator-destination.sh
+├── scripts/simulator-destination.py, annotate-log.py
 └── .github/workflows/ci.yml       ← Linux job + macOS job
 ```
 
@@ -104,7 +104,7 @@ iOS shows a **Language** option in *Settings → Atmos*: the per-app language co
 | Lint, package tests and app on macOS | macOS | SwiftLint, `swift test` (all three layers), `xcodegen`, `xcodebuild test` with the UI test on the newest iPhone simulator |
 
 Simulator names change with every Xcode release, so
-[`simulator-destination.sh`](../../scripts/simulator-destination.sh) picks the newest
+[`simulator-destination.py`](../../scripts/simulator-destination.py) picks the newest
 available iPhone instead of hard-coding "iPhone 16".
 
 ## Run it yourself
@@ -136,6 +136,18 @@ xcodegen && open Atmos.xcodeproj        # then ⌘R
 2. **An off-centre icon.** The first icon reused the Android drawing coordinates, which are
    offset for Android's adaptive-icon safe zone. The agent looked at the image, saw the
    shapes sitting low and right, and centred them.
+3. **CI failed twice without saying why.** Instead of guessing, the agent added
+   [`annotate-log.py`](../../scripts/annotate-log.py), which turns any build log into
+   GitHub annotations: the `error:` lines, or the last 40 lines. The next run showed both
+   causes at once:
+   - Linux: `libxml2.so.2: cannot open shared object file`. `ubuntu-latest` had moved to a
+     newer Ubuntu than the Swift toolchain is built for. Fix: pin `ubuntu-24.04`.
+   - macOS: the simulator-picking script failed before `xcodebuild` even ran (an escaped
+     quote inside a Python f-string, rejected by older Python versions). It was rewritten as
+     a small tested Python file.
+
+   **Lesson:** make failures *visible* first, then fix them. And pin the versions of
+   everything a build depends on, including the operating system image.
 
 Prompts: [docs/ai/prompts/step-02-project-structure.md](../ai/prompts/step-02-project-structure.md).
 

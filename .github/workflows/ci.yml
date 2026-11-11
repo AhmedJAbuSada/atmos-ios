@@ -20,7 +20,9 @@ permissions:
 jobs:
   linux:
     name: Domain and data on Linux
-    runs-on: ubuntu-latest
+    # Pinned to the Ubuntu version the Swift toolchain is built for: on newer images the
+    # toolchain cannot find libxml2.so.2.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       SWIFT_VERSION: "6.4.2"
@@ -87,8 +89,7 @@ jobs:
 
       - name: Build and run UI tests on the iOS Simulator
         run: |
-          destination=$(./scripts/simulator-destination.sh)
-          echo "Using $destination"
+          destination=$(xcrun simctl list devices available --json | python3 scripts/simulator-destination.py)
           status=0
           xcodebuild test -project Atmos.xcodeproj -scheme Atmos -destination "$destination" \
             CODE_SIGNING_ALLOWED=NO > xcodebuild.log 2>&1 || status=$?
