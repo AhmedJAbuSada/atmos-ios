@@ -8,7 +8,7 @@
 the same time produce merge conflicts that are hard to resolve, and reviewers cannot read it.
 
 ## Decision
-Describe the app target in a short, readable [`project.yml`](../../../project.yml) and
+Describe the app target in a short, readable `project.yml` (added in step 02) and
 generate `Atmos.xcodeproj` with [XcodeGen](https://github.com/yonaskolb/XcodeGen). The
 generated project is **not** committed. All real code lives in the Swift package, which
 Xcode reads directly.
