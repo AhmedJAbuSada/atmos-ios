@@ -1,6 +1,6 @@
 # Step 03 — Domain layer: the business rules, in plain Swift
 
-**Branch:** `step-03-domain-layer` · **Previous:** [step 02](02-project-structure.md) · **Next:** step 04, data layer
+**Branch:** `step-03-domain-layer` · **Previous:** [step 02](02-project-structure.md) · **Next:** [step 04, data layer](04-data-layer.md)
 
 The domain is what Atmos **knows and decides**, written with nothing but Foundation. It
 holds the same rules as the
