@@ -1,6 +1,6 @@
 # Step 02 — Project structure: make the architecture a compile-time rule (iOS)
 
-**Branch:** `step-02-project-structure` · **Previous:** [step 01](01-planning.md) · **Next:** step 03, domain layer
+**Branch:** `step-02-project-structure` · **Previous:** [step 01](01-planning.md) · **Next:** [step 03, domain layer](03-domain-layer.md)
 
 In step 01 we *wrote down* the rules. In this step the **tools enforce them**, before any
 feature exists.

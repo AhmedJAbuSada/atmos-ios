@@ -9,7 +9,7 @@ with Clean Architecture, SwiftUI and an AI coding agent.**
 ![Languages](https://img.shields.io/badge/i18n-EN%20%7C%20TR%20%7C%20AR%20(RTL)-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> 🚧 **In progress:** step 01 of 7 is done. Follow along in [PROGRESS.md](docs/PROGRESS.md).
+> 🚧 **In progress:** steps 01–03 of 7 are done. Follow along in [PROGRESS.md](docs/PROGRESS.md).
 > The [Android version](https://github.com/AhmedJAbuSada/atmos-android) is complete (v1.0.0).
 
 ## Why this repository exists
@@ -20,8 +20,8 @@ grows**, one level per branch, each explained:
 | Step | Branch | What you learn |
 |---|---|---|
 | 01 | [`step-01-planning`](../../tree/step-01-planning) | PRD, user stories, API contract, architecture, ADRs, team process, AI agent rules |
-| 02 | `step-02-project-structure` | Swift package targets that enforce Clean Architecture, XcodeGen, SwiftLint, CI |
-| 03 | `step-03-domain-layer` | Entities, use cases, typed throws, Swift Testing |
+| 02 | [`step-02-project-structure`](../../tree/step-02-project-structure) | Swift package targets that enforce Clean Architecture, XcodeGen, SwiftLint, CI |
+| 03 | [`step-03-domain-layer`](../../tree/step-03-domain-layer) | Entities, use cases, typed throws, Swift Testing |
 | 04 | `step-04-data-layer` | URLSession + Codable, mappers, JSON file cache, settings, location |
 | 05 | `step-05-presentation-ui` | Design system, SwiftUI screens with previews (dark, RTL, Dynamic Type) |
 | 06 | `step-06-integration` | `@Observable` view models, navigation, permissions, real data |
