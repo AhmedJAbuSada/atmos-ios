@@ -3,6 +3,37 @@
 **A weather app built step by step, as a public tutorial on professional iOS development
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
+<!-- step-banner:start -->
+## 📍 You are on Step 01 of 7 — Planning: documents before code
+
+`step-01-planning` · [Step 02 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-02-project-structure) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** There is **no code** in this branch, on purpose. It shows how one product is built on several platforms: the requirements, user stories, wireframes and API contract are **shared** with the Android version (same IDs), while the architecture, eight ADRs, Swift coding standards and `AGENTS.md` are written **for iOS**, each decision compared with Android.
+
+**Why it matters.** A second platform is a chance to start with what the first one learned. Shared requirement IDs mean a bug in "F-05" is the same feature in all four apps; platform documents explain *why* iOS chooses differently (no DI framework, typed throws, JSON files instead of SwiftData).
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `docs/product/, docs/design/, docs/api/` | Shared with Android: the same product |
+| `docs/architecture/ARCHITECTURE.md` | Three layers as Swift package targets |
+| `docs/architecture/adr/` | Eight iOS decisions, each compared with Android |
+| `docs/process/CODING_STANDARDS.md` | Swift 6, SwiftLint, SwiftUI rules |
+| `AGENTS.md, docs/AI_WORKFLOW.md` | How to work with an AI coding agent |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/01-planning.md](docs/steps/01-planning.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **Read in this order:** PRD → user stories → API contract → architecture → ADRs → AGENTS.md.
+3. **Try the exercise:** Compare ADR-0004 here with ADR-0004 in the Android repo. When would you add a DI framework to the iOS app?
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
+<!-- step-banner:end -->
+
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-iOS%2017+-0D96F6?logo=apple&logoColor=white)
 ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-3%20layers-success)
