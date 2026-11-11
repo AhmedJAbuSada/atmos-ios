@@ -3,6 +3,14 @@
 **A weather app built step by step, as a public tutorial on professional iOS development
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
+<!-- step-banner:start -->
+> ### 📍 You are on `main`: the finished app
+> This branch is the complete app. To **learn how it was built**, start at
+> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) and follow the steps in order:
+> each step branch has its own README that explains what that step is, why it exists,
+> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+<!-- step-banner:end -->
+
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-iOS%2017+-0D96F6?logo=apple&logoColor=white)
 ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-3%20layers-success)
@@ -52,6 +60,9 @@ solves the same problem: Hilt vs a hand-written composition root, Room vs JSON f
 - 🌡 °C / °F, km/h / m/s / mph
 - 🌙 Dark mode
 - 🌍 **English, Türkçe, العربية** (full right-to-left layout)
+
+> **Note on translations:** the Turkish and Arabic texts are written with an AI agent and
+> have **not yet been reviewed by a native speaker**. Corrections are welcome.
 
 Weather data by [Open-Meteo.com](https://open-meteo.com/). No API key is needed.
 
