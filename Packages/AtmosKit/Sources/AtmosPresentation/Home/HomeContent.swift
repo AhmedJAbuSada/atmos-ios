@@ -120,8 +120,7 @@ private struct CurrentConditionsView: View {
 
     var body: some View {
         VStack(spacing: AtmosTheme.Spacing.extraSmall) {
-            Image(systemName: current.condition.symbolName(isDay: current.isDay))
-                .symbolRenderingMode(.multicolor)
+            ConditionIcon(condition: current.condition, isDay: current.isDay)
                 .font(.system(size: 72))
                 .accessibilityHidden(true) // the condition is written right below
             Text(verbatim: format.temperature(current.temperature, unit: settings.temperatureUnit))
@@ -168,8 +167,7 @@ private struct HourCell: View {
         let chance = hour.precipitationChancePercent.flatMap { $0 > 0 ? format.percentage($0) : nil }
         VStack(spacing: AtmosTheme.Spacing.extraSmall) {
             time.font(.caption)
-            Image(systemName: hour.condition.symbolName())
-                .symbolRenderingMode(.multicolor)
+            ConditionIcon(condition: hour.condition)
                 .font(.title2)
             Text(verbatim: format.temperature(hour.temperature, unit: unit))
                 .font(.headline.monospacedDigit())
@@ -216,8 +214,7 @@ private struct DayRow: View {
             VStack(alignment: .leading, spacing: AtmosTheme.Spacing.extraSmall) {
                 HStack(spacing: AtmosTheme.Spacing.medium) {
                     name.frame(maxWidth: .infinity, alignment: .leading)
-                    Image(systemName: day.condition.symbolName())
-                        .symbolRenderingMode(.multicolor)
+                    ConditionIcon(condition: day.condition)
                         .accessibilityHidden(true)
                     Text(verbatim: format.temperature(day.minTemperature, unit: unit))
                         .foregroundStyle(.secondary)

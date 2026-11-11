@@ -117,8 +117,7 @@ public struct CitiesContent: View {
                         .temperature(temperature, unit: state.temperatureUnit))
                 }
                 if let condition = item.condition {
-                    Image(systemName: condition.symbolName())
-                        .symbolRenderingMode(.multicolor)
+                    ConditionIcon(condition: condition)
                         .accessibilityLabel(Text(condition.label, bundle: .module))
                 }
             }
