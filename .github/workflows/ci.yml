@@ -49,8 +49,17 @@ jobs:
         working-directory: Packages/AtmosKit
         run: |
           export PATH=/opt/swift/usr/bin:$PATH
-          swift --version
-          swift test
+          {
+            # A freshly unpacked toolchain fails with exit code 127 when a system library
+            # is missing; list any that are.
+            ldd /opt/swift/usr/bin/swift-frontend | grep "not found" || true
+            swift --version
+            swift test
+          } > ../../swift.log 2>&1
+
+      - name: Report the failure
+        if: failure()
+        run: python3 scripts/annotate-log.py swift.log "swift test (Linux)"
 
   macos:
     name: Lint, package tests and app on macOS
@@ -87,12 +96,6 @@ jobs:
           grep -E "error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST)" xcodebuild.log || true
           exit $status
 
-      # Errors as annotations; if there are none, the end of the log, which holds the reason.
       - name: Report the failure
         if: failure()
-        run: |
-          if grep -qE "error:" xcodebuild.log; then
-            grep -E "error:" xcodebuild.log | sort -u | head -20 | while read -r line; do echo "::error::$line"; done
-          else
-            echo "::error title=xcodebuild (last lines)::$(tail -40 xcodebuild.log | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
-          fi
+        run: python3 scripts/annotate-log.py xcodebuild.log "xcodebuild"
