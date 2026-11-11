@@ -4,12 +4,39 @@
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 04 of 7 — Data layer: the app's backend on the phone
+
+`step-04-data-layer` · [← Step 03](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-03-domain-layer) · [Step 05 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-05-presentation-ui) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** Everything that talks to the outside world, behind the domain's protocols: Codable DTOs that mirror the JSON, a one-method `HTTPClient` protocol over `URLSession` with a retry decorator, mappers that read local API times in the place's time zone, a `JSONFileStore` actor for the cache and saved cities, `UserDefaults` settings, CoreLocation with iOS 17's `CLLocationUpdate`, and 37 tests on the real recorded responses that run even on Linux.
+
+**Why it matters.** DTOs change when the API changes; entities change when the product changes. Keeping them apart, and translating errors once at the edge, means the app never sees `URLError` or a JSON key. Only `DataModule` is public, so the app can only use domain protocols.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `Packages/AtmosKit/Sources/AtmosData/Remote/` | DTOs, HTTPClient + retry, OpenMeteoAPI, error mapping |
+| `…/AtmosData/Mappers/` | DTO → entities (time zones, parallel arrays) |
+| `…/AtmosData/Local/` | JSONFileStore actor, locale-proof cache key |
+| `…/AtmosData/Repositories/` | Conformances to the domain protocols |
+| `…/AtmosData/DataModule.swift` | The only public type |
+| `Packages/AtmosKit/Tests/AtmosDataTests/` | 37 tests reading docs/api/samples |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/04-data-layer.md](docs/steps/04-data-layer.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 03](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-03-domain-layer...step-04-data-layer).
+3. **Run it:**
+   ```bash
+   (cd Packages/AtmosKit && swift test)
+   ```
+4. **Try the exercise:** Add `uv_index_max` to the daily forecast: DTO → mapper → entity → a test with a new recorded sample. Compare with the same exercise on Android.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
 <!-- step-banner:end -->
 
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
