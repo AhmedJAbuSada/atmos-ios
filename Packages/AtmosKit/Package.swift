@@ -18,7 +18,7 @@ var targets: [Target] = [
     // targets depend on it; it is never linked into the app.
     .target(name: "AtmosTesting", dependencies: ["AtmosDomain"]),
     .testTarget(name: "AtmosDomainTests", dependencies: ["AtmosDomain", "AtmosTesting"]),
-    .testTarget(name: "AtmosDataTests", dependencies: ["AtmosData"]),
+    .testTarget(name: "AtmosDataTests", dependencies: ["AtmosData", "AtmosTesting"]),
 ]
 
 // SwiftUI exists only on Apple platforms. On Linux (fast CI, cloud sandboxes) the package
