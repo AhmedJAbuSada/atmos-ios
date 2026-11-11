@@ -3,6 +3,42 @@
 **A weather app built step by step, as a public tutorial on professional iOS development
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
+<!-- step-banner:start -->
+## 📍 You are on Step 02 of 7 — Project structure: the architecture as a compile-time rule
+
+`step-02-project-structure` · [← Step 01](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) · [Step 03 →](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-03-domain-layer) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** The empty project with the right walls: a local Swift package (`AtmosKit`) whose targets *are* the layers, an XcodeGen `project.yml` instead of a committed `.xcodeproj`, SwiftLint with custom rules for the Turkish casing bug and for keeping SwiftUI out of the domain, a String Catalog in three languages, and CI on Linux (domain + data) and macOS (everything + the iOS Simulator).
+
+**Why it matters.** `Package.swift` turns the architecture into a compile error. Because the domain needs no Apple framework, it builds and tests on Linux too, which is how the AI agent in this tutorial worked without a Mac.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `Packages/AtmosKit/Package.swift` | The dependency rule, for the compiler |
+| `project.yml` | The app target, generated with XcodeGen |
+| `App/AppContainer.swift` | The composition root |
+| `.swiftlint.yml` | Style + two custom architecture/locale rules |
+| `.github/workflows/ci.yml` | Linux and macOS jobs |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/02-project-structure.md](docs/steps/02-project-structure.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 01](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-01-planning...step-02-project-structure).
+3. **Run it:**
+   ```bash
+   (cd Packages/AtmosKit && swift test)
+   brew install xcodegen swiftlint && xcodegen && open Atmos.xcodeproj
+   ```
+4. **Try the exercise:** Add `import AtmosData` to a file in `AtmosDomain` and run `swift build`. Then add `import SwiftUI` and run `swiftlint`.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
+<!-- step-banner:end -->
+
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-iOS%2017+-0D96F6?logo=apple&logoColor=white)
 ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-3%20layers-success)
