@@ -7,7 +7,8 @@ import SwiftUI
 /// The composition root (ADR-0004): the one place that knows which implementation stands
 /// behind each domain protocol. Everything else receives its dependencies in `init`.
 ///
-/// Step 04 creates the real repositories; the view models that use them arrive in step 06.
+/// In step 05 the app shows the Home screen with **preview data**, so the views can be checked
+/// on a device before any real data is connected. Step 06 adds the view models.
 @MainActor
 final class AppContainer {
     let repositories: DataModule.Repositories
@@ -21,6 +22,9 @@ final class AppContainer {
     }
 
     func makeRootView() -> some View {
-        HelloView()
+        NavigationStack {
+            HomeContent(state: .content(PreviewData.content), actions: .none)
+        }
+        .tint(AtmosTheme.accent)
     }
 }
