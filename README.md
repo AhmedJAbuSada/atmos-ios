@@ -4,12 +4,40 @@
 with Clean Architecture, SwiftUI and an AI coding agent.**
 
 <!-- step-banner:start -->
-> ### 📍 You are on `main`: the newest version
-> This branch has every step merged so far (see [PROGRESS.md](docs/PROGRESS.md)); at
-> step 07 it becomes the finished app. To **learn how it is built**, start at
-> [**Step 01 — Planning: documents before code**](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-01-planning) and follow the steps in order:
-> each step branch has its own README that explains what that step is, why it exists,
-> and what changed. All steps: [ROADMAP.md](docs/ROADMAP.md).
+## 📍 You are on Step 07 of 7 — Quality & release: prove it works the way users get it
+
+`step-07-quality-release` · [← Step 06](https://github.com/AhmedJAbuSada/atmos-ios/tree/step-06-integration) · [All steps](docs/ROADMAP.md)
+
+**What this step is.** Proof that the product works the way users get it: an end-to-end UI test on the iOS Simulator against the real API in English, Turkish and Arabic (found by accessibility identifiers, not text), screenshots recorded by CI that found two real bugs (raw string keys and invisible white clouds), a String Catalog test, the localized permission text, the App Store privacy manifest, a Release build in CI, a changelog and release/accessibility/localization checklists.
+
+**Why it matters.** Unit tests prove the parts work; this step proves the *product* does. The CI run was green while the app showed raw keys: tests check what you thought of, screenshots show what you didn't. The guide separates what CI verified from what still needs a person.
+
+**What you will find in this branch**
+
+| Where | What |
+|---|---|
+| `UITests/CitySearchJourneyTests.swift` | The journey in three languages, with screenshots |
+| `docs/screenshots/` | Recorded by CI from the real app |
+| `…/AtmosPresentationTests/StringCatalogTests.swift` | Every key exists in en, tr, ar |
+| `App/Resources/PrivacyInfo.xcprivacy` | No tracking; coarse location; UserDefaults reason |
+| `App/Resources/InfoPlist.xcstrings` | The permission dialog text, translated |
+| `docs/process/*_CHECKLIST.md` | Release, VoiceOver, localization review |
+
+**How to study this step**
+
+1. **Read the full guide:** [docs/steps/07-quality-release.md](docs/steps/07-quality-release.md): key ideas, diagrams, and *how the AI agent helped* (including what went wrong).
+2. **See exactly what this step changed:** [compare with step 06](https://github.com/AhmedJAbuSada/atmos-ios/compare/step-06-integration...step-07-quality-release).
+3. **Run it:**
+   ```bash
+   xcodegen
+   xcodebuild test -project Atmos.xcodeproj -scheme Atmos -destination "platform=iOS Simulator,name=iPhone 16"
+   ```
+4. **Try the exercise:** Add a fourth journey run in dark mode (`xcrun simctl ui booted appearance dark`) and compare the screenshots.
+
+> This README shows the project *as it was at this step*. The finished app is on
+> [`main`](https://github.com/AhmedJAbuSada/atmos-ios).
+
+---
 <!-- step-banner:end -->
 
 ![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
