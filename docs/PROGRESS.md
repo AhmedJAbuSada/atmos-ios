@@ -2,8 +2,8 @@
 
 > Read this first at the start of every work session (human or AI). Update it at the end.
 
-**Current step:** 03, domain layer ✅ done
-**Next up:** step 04, data layer (`step-04-data-layer`)
+**Current step:** 04, data layer ✅ done
+**Next up:** step 05, presentation / UI (`step-05-presentation-ui`)
 **Last updated:** 2026-11-11
 
 ## Status
@@ -13,26 +13,23 @@
 | 01 Planning | ✅ Done | `step-01-planning` |
 | 02 Project structure | ✅ Done | `step-02-project-structure` |
 | 03 Domain layer | ✅ Done | `step-03-domain-layer` |
-| 04 Data layer | ⏳ Next | `step-04-data-layer` |
-| 05 Presentation / UI | ⬜ | — |
+| 04 Data layer | ✅ Done | `step-04-data-layer` |
+| 05 Presentation / UI | ⏳ Next | `step-05-presentation-ui` |
 | 06 Integration | ⬜ | — |
 | 07 Quality & release | ⬜ | — |
 
-## Next up: step 04 plan
-Everything in `AtmosData`; conforms to the domain protocols. Tests read
-`docs/api/samples/` directly through `#filePath` (one source of truth).
-1. Codable DTOs (all optional; `results` defaults to empty), an `OpenMeteoClient` on
-   `URLSession` with timeouts, User-Agent and retry (network errors and 5xx, never 4xx).
-2. Mappers DTO → entities (local times + time zone → `Date`), tested on every sample.
-3. Error mapping: `URLError` (incl. `.cancelled` → `.cancelled`), HTTP status,
-   `DecodingError` → `DomainError`.
-4. `JSONFileStore` actor for the forecast cache (raw JSON, key with `Locale(identifier:
-   "en_US_POSIX")`) and saved cities; `UserDefaultsSettingsRepository`.
-5. `CoreLocationRepository` behind `#if canImport(CoreLocation)`; permission checked, not
-   requested.
-6. Tests with a stub `URLProtocol` replaying the samples (macOS) and pure mapper/store tests
-   (Linux).
-7. Wire the implementations in `AppContainer`.
+## Next up: step 05 plan
+Everything in `AtmosPresentation`, with fake data; no view models yet (step 06).
+1. Design system: colours (light/dark, AA contrast), typography with Dynamic Type, spacing.
+2. `WeatherFormatter`: `FormatStyle` with the environment locale; Turkish `%69` and decimal
+   comma, Arabic with Latin digits (`ar@numbers=latn`); values wrapped in directional
+   isolates from the start. Tests in en, tr, ar (they run on macOS only).
+3. Condition labels and SF Symbols per `WeatherCondition` (night variants); `DomainError`
+   messages.
+4. Stateless content views: Home, Cities, Settings, About; every state previewed in light,
+   dark, Arabic and the largest Dynamic Type size.
+5. All strings in `Localizable.xcstrings` (en, tr, ar), with plural variations.
+6. `AppContainer.makeRootView()` shows Home with preview data.
 
 ## Process rule
 After a step is merged into `main`, add the "📍 You are on Step N" section to the top of
