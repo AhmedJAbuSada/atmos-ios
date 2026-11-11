@@ -11,7 +11,7 @@ struct WeatherConditionTests {
         (56, .freezingDrizzle), (57, .freezingDrizzle), (61, .rain), (63, .rain), (65, .rain),
         (66, .freezingRain), (67, .freezingRain), (71, .snow), (73, .snow), (75, .snow), (77, .snow),
         (80, .rainShowers), (81, .rainShowers), (82, .rainShowers), (85, .snowShowers), (86, .snowShowers),
-        (95, .thunderstorm), (96, .thunderstormWithHail), (99, .thunderstormWithHail),
+        (95, .thunderstorm), (96, .thunderstormWithHail), (99, .thunderstormWithHail)
     ])
     func knownCodes(code: Int, condition: WeatherCondition) {
         #expect(WeatherCondition(wmoCode: code) == condition)

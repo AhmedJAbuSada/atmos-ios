@@ -120,7 +120,10 @@ struct GetCurrentLocationForecastUseCaseTests {
         let weather = FakeWeatherRepository()
         let useCase = GetCurrentLocationForecastUseCase(
             locations: FakeLocationRepository(),
-            getForecast: GetForecastUseCase(repository: weather, freshness: ForecastFreshness(dates: FixedDateProvider()))
+            getForecast: GetForecastUseCase(
+                repository: weather,
+                freshness: ForecastFreshness(dates: FixedDateProvider())
+            )
         )
 
         #expect(try await useCase().forecast == TestData.forecast())
@@ -131,7 +134,10 @@ struct GetCurrentLocationForecastUseCaseTests {
         let weather = FakeWeatherRepository()
         let useCase = GetCurrentLocationForecastUseCase(
             locations: FakeLocationRepository(result: .failure(.locationPermissionDenied)),
-            getForecast: GetForecastUseCase(repository: weather, freshness: ForecastFreshness(dates: FixedDateProvider()))
+            getForecast: GetForecastUseCase(
+                repository: weather,
+                freshness: ForecastFreshness(dates: FixedDateProvider())
+            )
         )
 
         await #expect(throws: DomainError.locationPermissionDenied) { try await useCase() }

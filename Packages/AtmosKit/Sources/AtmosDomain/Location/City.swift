@@ -10,7 +10,14 @@ public struct City: Identifiable, Equatable, Hashable, Sendable, Codable {
     public let countryCode: String?
     public let coordinates: Coordinates
 
-    public init(id: Int, name: String, region: String?, country: String?, countryCode: String?, coordinates: Coordinates) {
+    public init(
+        id: Int,
+        name: String,
+        region: String?,
+        country: String?,
+        countryCode: String?,
+        coordinates: Coordinates
+    ) {
         self.id = id
         self.name = name
         self.region = region

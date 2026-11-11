@@ -30,7 +30,10 @@ public struct GetForecastUseCase: Sendable {
         self.freshness = freshness
     }
 
-    public func callAsFunction(for coordinates: Coordinates, forceRefresh: Bool = false) async throws(DomainError) -> ForecastSnapshot {
+    public func callAsFunction(
+        for coordinates: Coordinates,
+        forceRefresh: Bool = false
+    ) async throws(DomainError) -> ForecastSnapshot {
         let cached = await repository.cachedForecast(for: coordinates)
         if !forceRefresh, let cached, freshness.isFresh(cached) {
             return ForecastSnapshot(forecast: cached)

@@ -39,7 +39,8 @@ struct SettingsUseCasesTests {
         var iterator = stream.makeAsyncIterator()
         _ = await iterator.next()
 
-        await UpdateSettingsUseCase(repository: repository)() { $0.temperatureUnit = .fahrenheit }
+        let update = UpdateSettingsUseCase(repository: repository)
+        await update { $0.temperatureUnit = .fahrenheit }
 
         #expect(await iterator.next()?.temperatureUnit == .fahrenheit)
     }

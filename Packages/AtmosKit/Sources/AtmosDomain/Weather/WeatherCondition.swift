@@ -9,22 +9,22 @@ public enum WeatherCondition: String, CaseIterable, Sendable, Codable {
     case unknown
 
     public init(wmoCode code: Int?) {
-        self = switch code {
-        case 0: .clear
-        case 1: .mainlyClear
-        case 2: .partlyCloudy
-        case 3: .overcast
-        case 45, 48: .fog
-        case 51, 53, 55: .drizzle
-        case 56, 57: .freezingDrizzle
-        case 61, 63, 65: .rain
-        case 66, 67: .freezingRain
-        case 71, 73, 75, 77: .snow
-        case 80, 81, 82: .rainShowers
-        case 85, 86: .snowShowers
-        case 95: .thunderstorm
-        case 96, 99: .thunderstormWithHail
-        default: .unknown
-        }
+        self = code.flatMap { Self.byWMOCode[$0] } ?? .unknown
     }
+
+    /// The WMO weather interpretation codes (API_CONTRACT §3). A table reads better than a
+    /// long `switch` for a pure mapping, and it is easy to compare with the documentation.
+    private static let byWMOCode: [Int: WeatherCondition] = [
+        0: .clear, 1: .mainlyClear, 2: .partlyCloudy, 3: .overcast,
+        45: .fog, 48: .fog,
+        51: .drizzle, 53: .drizzle, 55: .drizzle,
+        56: .freezingDrizzle, 57: .freezingDrizzle,
+        61: .rain, 63: .rain, 65: .rain,
+        66: .freezingRain, 67: .freezingRain,
+        71: .snow, 73: .snow, 75: .snow, 77: .snow,
+        80: .rainShowers, 81: .rainShowers, 82: .rainShowers,
+        85: .snowShowers, 86: .snowShowers,
+        95: .thunderstorm,
+        96: .thunderstormWithHail, 99: .thunderstormWithHail
+    ]
 }
