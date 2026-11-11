@@ -6,8 +6,8 @@ import Testing
 /// Every key the code asks for must exist in the String Catalog, in every language.
 ///
 /// This test exists because of a real bug: `LocalizedStringKey("condition.\(rawValue)")`
-/// looked up `condition.%@`, and the screens showed "condition.overcast". The previews looked
-/// fine in the IDE only by luck of what was on screen; the CI screenshots caught it.
+/// looked up `condition.%@`, and the screens showed "condition.overcast". No unit test noticed;
+/// the CI screenshots did. This test makes sure it cannot come back.
 @Suite("String Catalog")
 struct StringCatalogTests {
     static let languages = ["en", "tr", "ar"]

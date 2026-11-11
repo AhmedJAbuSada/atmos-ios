@@ -215,6 +215,7 @@ private struct DayRow: View {
                 HStack(spacing: AtmosTheme.Spacing.medium) {
                     name.frame(maxWidth: .infinity, alignment: .leading)
                     ConditionIcon(condition: day.condition)
+                        .frame(width: 32) // symbols differ in width; keep the column aligned
                         .accessibilityHidden(true)
                     Text(verbatim: format.temperature(day.minTemperature, unit: unit))
                         .foregroundStyle(.secondary)
