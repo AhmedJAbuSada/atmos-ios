@@ -1,0 +1,72 @@
+# XcodeGen spec (ADR-0008). Run `xcodegen` to create Atmos.xcodeproj; do not commit it.
+# The app target is thin: an entry point and the composition root. All real code lives in
+# Packages/AtmosKit.
+name: Atmos
+options:
+  bundleIdPrefix: dev.ahmedabusada
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+    MARKETING_VERSION: "0.2.0"
+    CURRENT_PROJECT_VERSION: 2
+
+packages:
+  AtmosKit:
+    path: Packages/AtmosKit
+
+targets:
+  Atmos:
+    type: application
+    platform: iOS
+    sources:
+      - App
+    dependencies:
+      - package: AtmosKit
+        product: AtmosDomain
+      - package: AtmosKit
+        product: AtmosData
+      - package: AtmosKit
+        product: AtmosPresentation
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Atmos
+        # The languages offered in Settings → Atmos → Language (ADR-0005).
+        CFBundleLocalizations: [en, tr, ar]
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIApplicationSupportsIndirectInputEvents: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ahmedabusada.atmos
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+
+  AtmosUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    dependencies:
+      - target: Atmos
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  Atmos:
+    build:
+      targets:
+        Atmos: all
+        AtmosUITests: [test]
+    test:
+      targets:
+        - AtmosUITests
