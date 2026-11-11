@@ -30,7 +30,7 @@ everything else.
 - Default access is `internal`; add `public` only for what other targets need.
 - Swift 6 strict concurrency: types crossing tasks are `Sendable`; shared mutable state
   lives in an `actor`; view models are `@MainActor`.
-- Never swallow `CancellationError`.
+- Never hide a cancellation: map it to `DomainError.cancelled`, never show it (ADR-0009).
 - Text casing always takes a locale: `uppercased(with: locale)`. **Never** the version
   without one for display text (Turkish `i`; SwiftLint rule).
 - No magic numbers: `static let cacheLifetime: Duration = .seconds(30 * 60)`.

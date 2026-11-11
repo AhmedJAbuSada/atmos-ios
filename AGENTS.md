@@ -22,10 +22,10 @@ Full rules: [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE
   **`AtmosDomain` imports Foundation only.**
 - DTOs never leave `AtmosData`. Views never see a DTO or a library error.
 - Fallible functions are `async throws(DomainError)`; map library errors in `AtmosData`;
-  never turn `CancellationError` into a `DomainError`.
+  map cancellation to `.cancelled` and never show it (ADR-0009).
 - One `@MainActor @Observable` view model per screen; content views take `state` + closures.
 - Dependencies come through `init`; only `AppContainer` creates real implementations.
-- Inject `Clock`; never call `Date()` in logic.
+- Inject a `DateProvider`; never call `Date()` in logic.
 
 ## Code rules
 - Follow [`docs/process/CODING_STANDARDS.md`](docs/process/CODING_STANDARDS.md).
